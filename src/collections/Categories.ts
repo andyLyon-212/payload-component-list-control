@@ -20,6 +20,15 @@ const Categories: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'search',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '/components/ListView#ListView',
+        },
+      },
+    },
   ],
 }
 

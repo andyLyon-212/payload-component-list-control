@@ -1,0 +1,38 @@
+version: '0.5'
+
+processes:
+  mongodb:
+    command: docker stop youtube-mongodb || true && docker run --rm -p 27017:27017 --name  youtube-mongodb -v ./.mongo:/data/db mongo:latest
+    availability:
+      restart: 'always'
+    shutdown:
+      command: 'docker stop youtube-mongodb'
+      signal: 15
+      timeout_seconds: 60
+    readiness_probe:
+      exec:
+        command: curl --connect-timeout 10 --silent --show-error localhost:27017
+      initial_delay_seconds: 15
+      period_seconds: 1
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 60
+
+  payload:
+    command: yarn dev
+    availability:
+      restart: 'always'
+    depends_on:
+      mongodb:
+        condition: process_healthy
+    readiness_probe:
+      http_get:
+        host: 127.0.0.1
+        scheme: http
+        path: '/healthcheck'
+        port: 3000
+      initial_delay_seconds: 5
+      period_seconds: 1
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 60

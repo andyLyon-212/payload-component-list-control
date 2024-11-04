@@ -720,6 +720,7 @@ export interface PayloadMigration {
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
+  search?: T;
   title?: T;
   hero?:
     | T
@@ -895,6 +896,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
+  search?: T;
   parent?: T;
   breadcrumbs?:
     | T

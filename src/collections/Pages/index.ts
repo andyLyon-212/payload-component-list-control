@@ -52,6 +52,15 @@ export const Pages: CollectionConfig = {
   },
   fields: [
     {
+      name: 'search',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '/components/Search#Search',
+        },
+      },
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,
